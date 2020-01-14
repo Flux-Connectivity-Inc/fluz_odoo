@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+    Product Internal Reference
+    -->
+    <record id="sequence_product_sku_seq" model="ir.sequence">
+        <field name="name">Product sequence</field>
+        <field name="code">product.product.sku</field>
+        <field name="prefix">A-</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">6</field>
+    </record>
+</odoo>
