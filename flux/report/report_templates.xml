@@ -4,8 +4,8 @@
         <xpath expr="//div[@name='company_address']" position="attributes">
             <attribute name="class">col-6 text-right</attribute>
         </xpath>
-        <xpath expr="//div[hasclass('footer')]" position="replace">
-            <div class="footer o_clean_footer">
+        <xpath expr="//div[@t-attf-class='footer o_clean_footer o_company_#{company.id}_layout']" position="replace">
+            <div t-attf-class="footer o_clean_footer o_company_#{company.id}_layout">
                 <div class="row mt4">
                     <div class="col-5 pr-0 mr-0" style="line-height:0.8">
                         <span style="font-size:12px;" t-esc="company.report_footer"/>
