@@ -9,6 +9,7 @@
     'website': 'https://www.odoogap.com',
     'depends': [
         'product',
+        'sale_management'
     ],
     'data': [
         'data/sequences.xml',
