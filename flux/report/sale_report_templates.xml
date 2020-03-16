@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document_flux" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@t-field='doc.partner_id']" position="before">
+            <strong class="text-left">Ship To:</strong>
+        </xpath>
+        <xpath expr="//t[@t-if='doc.partner_shipping_id == doc.partner_invoice_id
+                             and doc.partner_invoice_id != doc.partner_id
+                             or doc.partner_shipping_id != doc.partner_invoice_id']" position="replace">
+            <t t-set="information_block">
+                <strong>Sold To:</strong>
+                <div t-field="doc.partner_invoice_id"
+                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-set='information_block']" position="before">
+            <xpath expr="//t[@t-set='address']" position="move">
+            </xpath>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div class="row mt32 mb32" id="informations">
+                <div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">
+                        <strong>Your Reference:</strong>
+                        <p class="m-0" t-field="doc.client_order_ref"/>
+                    </div>
+                    <div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto mw-100 mb-2">
+                        <strong>Order Date:</strong>
+                        <p class="m-0" t-field="doc.date_order"/>
+                    </div>
+                    <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto mw-100 mb-2">
+                        <strong>Quotation Date:</strong>
+                        <p class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}'/>
+                    </div>
+                    <div t-if="doc.user_id.name" class="col-auto mw-100 mb-2">
+                        <strong>Account Executive:</strong>
+                        <p class="m-0" t-field="doc.user_id"/>
+                    </div>
+                    <div class="col-auto mw-100 mb-2" name="expiration_date">
+                        <strong>Expiration:</strong>
+                        <p class="m-0" t-field="doc.validity_date"/>
+                    </div>
+            </div>
+        </xpath>
+        <xpath expr="//th[@name='th_description']" position="after">
+            <th name="th_leadtime" class="text-left">Lead Time</th>
+        </xpath>
+        <xpath expr="//td[@name='td_name']" position="after">
+            <td name="td_leadtime" class="text-left">
+                <span t-field="line.customer_lead"/> days
+            </td>
+        </xpath>
+        <xpath expr="//t[@t-foreach='doc.amount_by_group']" position="replace">
+            <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+                <tr style="">
+                    <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
+                        <td name="td_amount_by_group_label_3">
+                            <span t-esc="amount_by_group[0]"/>
+                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/></span>
+                        </td>
+                        <td name="td_amount_by_group_3" class="text-right o_price_total">
+                            <span t-esc="amount_by_group[1]"
+                                t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                        </td>
+                    </t>
+                    <t t-else ="">
+                        <td name="td_amount_by_group_label">
+                            <span>Total Tax</span>
+                        </td>
+                        <td name="td_amount_by_group" class="text-right o_price_total">
+                            <span t-esc="amount_by_group[1]"
+                                t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                        </td>
+                    </t>
+                </tr>
+            </t>
+        </xpath>
+        <xpath expr="//p[@t-field='doc.note']" position="replace">
+            <p>
+                <span>Incoterms: </span><span t-field="doc.payment_term_id.name"/>
+            </p>
+            <p><span>Note: </span> <span t-field="doc.note"></span></p>
+        </xpath>
+        <xpath expr="//p[@t-if='doc.payment_term_id.note']" position="replace"></xpath>
+    </template>
+</odoo>
