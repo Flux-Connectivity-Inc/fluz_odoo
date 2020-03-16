@@ -11,7 +11,9 @@
         'product',
     ],
     'data': [
-        'data/sequences.xml'
+        'data/sequences.xml',
+        'report/sale_report_templates.xml',
+        'report/report_templates.xml'
     ],
     'demo': [
     ],

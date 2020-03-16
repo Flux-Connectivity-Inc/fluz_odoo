@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="external_layout_clean_flux" inherit_id="web.external_layout_clean">
+        <xpath expr="//div[@name='company_address']" position="attributes">
+            <attribute name="class">col-6 text-right</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('o_clean_footer')]" position="replace">
+            <div class="footer o_clean_footer">
+                <div class="row mt4">
+                    <div class="col-5 pr-0 mr-0" style="line-height:0.8">
+                        <span style="font-size:12px;" t-esc="company.report_footer"/>
+                    </div>
+                    <div class="col-3 pl-1 text-right">
+                        <span class="company_address" t-field="company.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                    </div>
+                    <div class="col-3">
+                        <h5 class="mt0 mb0 text-uppercase text-bold" t-field="company.report_header"/>
+                    </div>
+                    <div class="col-1">
+                        <ul t-if="report_type == 'pdf'" class="list-inline pagenumber float-right text-center">
+                            <li class="list-inline-item"><strong><span class="page"/></strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="web.address_layout">
+        <t t-set="colclass" t-value="('col-md-5' if report_type == 'html' else 'col-5') + ' ml-auto'"/>
+        <t t-if="address">
+            <div class="address row">
+                <t t-if="information_block">
+                    <t t-set="colclass" t-value="'col-6 text-right'"/>
+                    <div name="information_block" class="col-6">
+                        <t t-raw="information_block"/>
+                    </div>
+                </t>
+                <div name="address" t-att-class="colclass">
+                    <t t-raw="address"/>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
